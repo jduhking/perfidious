@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck5tbk4657hsa"]
+
+[ext_resource type="Script" uid="uid://bfrcp7i6u2477" path="res://Managers/ui_manager.gd" id="1_p428f"]
+
+[node name="UIManager" type="Node"]
+script = ExtResource("1_p428f")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 8.0
+anchor_bottom = 4.5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="SusBar" type="ProgressBar" parent="CanvasLayer/GUI/MarginContainer"]
+layout_mode = 2
+max_value = 1.0

@@ -1,0 +1,140 @@
+[gd_scene load_steps=16 format=4 uid="uid://bdujia51khbn4"]
+
+[ext_resource type="Script" uid="uid://dplwecia361gb" path="res://Levels/level.gd" id="1_syshm"]
+[ext_resource type="Texture2D" uid="uid://cviolydaraecr" path="res://tilesheet.png" id="2_rfktq"]
+[ext_resource type="Script" uid="uid://bpgkc82m34fe6" path="res://Managers/cam.gd" id="3_0urlm"]
+[ext_resource type="PackedScene" uid="uid://cgfu1eq4j20ux" path="res://Player/player.tscn" id="4_77x7w"]
+[ext_resource type="PackedScene" uid="uid://w6fa31qrdoax" path="res://Entities/Tribesman/tribesman.tscn" id="5_xoyoh"]
+[ext_resource type="Shader" uid="uid://bcpgywt01vvmg" path="res://entity_shader.gdshader" id="6_rfktq"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fc0e3"]
+texture = ExtResource("2_rfktq")
+6:11/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_7jktm"]
+sources/0 = SubResource("TileSetAtlasSource_fc0e3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0urlm"]
+resource_local_to_scene = true
+shader = ExtResource("6_rfktq")
+shader_parameter/Enabled = false
+shader_parameter/effect_color = Color(1, 1, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_77x7w"]
+resource_local_to_scene = true
+shader = ExtResource("6_rfktq")
+shader_parameter/Enabled = false
+shader_parameter/effect_color = Color(1, 1, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xoyoh"]
+resource_local_to_scene = true
+shader = ExtResource("6_rfktq")
+shader_parameter/Enabled = false
+shader_parameter/effect_color = Color(1, 1, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f4pg2"]
+resource_local_to_scene = true
+shader = ExtResource("6_rfktq")
+shader_parameter/Enabled = false
+shader_parameter/effect_color = Color(1, 1, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_62b6n"]
+resource_local_to_scene = true
+shader = ExtResource("6_rfktq")
+shader_parameter/Enabled = false
+shader_parameter/effect_color = Color(1, 1, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rs4xw"]
+resource_local_to_scene = true
+shader = ExtResource("6_rfktq")
+shader_parameter/Enabled = false
+shader_parameter/effect_color = Color(1, 1, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lk57d"]
+resource_local_to_scene = true
+shader = ExtResource("6_rfktq")
+shader_parameter/Enabled = false
+shader_parameter/effect_color = Color(1, 1, 0, 1)
+shader_parameter/tint_strength = 1.0
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_syshm")
+
+[node name="Bounds" type="Node2D" parent="."]
+
+[node name="MinX" type="Node2D" parent="Bounds"]
+
+[node name="MaxX" type="Node2D" parent="Bounds"]
+position = Vector2(320, 0)
+
+[node name="MinY" type="Node2D" parent="Bounds"]
+
+[node name="MaxY" type="Node2D" parent="Bounds"]
+position = Vector2(0, 180)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAKAAoAAAAGAAsAAAAGAAkAAAAGAAsAAAAGAAoAAAAGAAsAAAAHAAkAAAAGAAsAAAAHAAoAAAAGAAsAAAAIAAkAAAAGAAsAAAAIAAoAAAAGAAsAAAAJAAkAAAAGAAsAAAAJAAoAAAAGAAsAAAAKAAkAAAAGAAsAAAADAAQAAAAGAAsAAAADAAUAAAAGAAsAAAADAAYAAAAGAAsAAAAEAAQAAAAGAAsAAAAEAAUAAAAGAAsAAAAEAAYAAAAGAAsAAAAFAAQAAAAGAAsAAAAFAAUAAAAGAAsAAAAFAAYAAAAGAAsAAAANAAQAAAAGAAsAAAANAAUAAAAGAAsAAAANAAYAAAAGAAsAAAAOAAQAAAAGAAsAAAAOAAUAAAAGAAsAAAAOAAYAAAAGAAsAAAAPAAQAAAAGAAsAAAAPAAUAAAAGAAsAAAAPAAYAAAAGAAsAAAAQAAQAAAAGAAsAAAAQAAUAAAAGAAsAAAAQAAYAAAAGAAsAAAARAAQAAAAGAAsAAAARAAUAAAAGAAsAAAARAAYAAAAGAAsAAAAIAAEAAAAGAAsAAAAIAAIAAAAGAAsAAAAIAAMAAAAGAAsAAAAJAAEAAAAGAAsAAAAJAAIAAAAGAAsAAAAJAAMAAAAGAAsAAAAKAAEAAAAGAAsAAAAKAAIAAAAGAAsAAAAKAAMAAAAGAAsAAAA=")
+tile_set = SubResource("TileSet_7jktm")
+
+[node name="MainCamera" type="Camera2D" parent="."]
+position_smoothing_speed = 4.0
+script = ExtResource("3_0urlm")
+
+[node name="Player" parent="." instance=ExtResource("4_77x7w")]
+position = Vector2(97, 65)
+
+[node name="Tribesmen" type="Node2D" parent="."]
+
+[node name="Tribesman" parent="Tribesmen" instance=ExtResource("5_xoyoh")]
+material = SubResource("ShaderMaterial_0urlm")
+position = Vector2(81, 22)
+
+[node name="Tribesman2" parent="Tribesmen" instance=ExtResource("5_xoyoh")]
+material = SubResource("ShaderMaterial_77x7w")
+position = Vector2(169, 136)
+
+[node name="Tribesman3" parent="Tribesmen" instance=ExtResource("5_xoyoh")]
+material = SubResource("ShaderMaterial_xoyoh")
+position = Vector2(281, 60)
+
+[node name="Tribesman4" parent="Tribesmen" instance=ExtResource("5_xoyoh")]
+material = SubResource("ShaderMaterial_f4pg2")
+position = Vector2(40, 70)
+
+[node name="Tribesman5" parent="Tribesmen" instance=ExtResource("5_xoyoh")]
+material = SubResource("ShaderMaterial_62b6n")
+position = Vector2(210, 26)
+
+[node name="Tribesman6" parent="Tribesmen" instance=ExtResource("5_xoyoh")]
+material = SubResource("ShaderMaterial_rs4xw")
+position = Vector2(67, 162)
+
+[node name="Tribesman7" parent="Tribesmen" instance=ExtResource("5_xoyoh")]
+material = SubResource("ShaderMaterial_lk57d")
+position = Vector2(245, 119)
+
+[node name="InterestPoints" type="Node2D" parent="."]
+
+[node name="InterestPoint" type="Node2D" parent="InterestPoints"]
+position = Vector2(27, 26)
+
+[node name="InterestPoint2" type="Node2D" parent="InterestPoints"]
+position = Vector2(282, 20)
+
+[node name="InterestPoint3" type="Node2D" parent="InterestPoints"]
+position = Vector2(25, 145)
+
+[node name="InterestPoint4" type="Node2D" parent="InterestPoints"]
+position = Vector2(165, 92)
+
+[node name="InterestPoint5" type="Node2D" parent="InterestPoints"]
+position = Vector2(280, 151)
+
+[node name="InterestPoint6" type="Node2D" parent="InterestPoints"]
+position = Vector2(215, 57)

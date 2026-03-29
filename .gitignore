@@ -1,0 +1,106 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor & IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+jspm_packages/
+bower_components/
+
+# Build output
+dist/
+build/
+out/
+bin/
+obj/
+*.o
+*.a
+*.lib
+*.dll
+*.exe
+*.out
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+.eggs/
+
+# C / C++
+*.o
+*.so
+*.out
+*.dSYM/
+
+# Java / Kotlin
+*.class
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+gradle-app.setting
+
+# Godot
+.godot/
+export/
+
+# Unity
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+
+# Misc
+*.bak
+*.tmp
+*.temp
+*.cache
+.cache/
+coverage/
+.nyc_output/

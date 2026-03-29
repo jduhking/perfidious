@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch0neyev006pg"]
+
+[ext_resource type="Script" uid="uid://cr860u0sfluu3" path="res://Entities/Tribesman/arrow.gd" id="1_nmryn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jtsml"]
+size = Vector2(4, 8)
+
+[node name="Arrow" type="Area2D"]
+collision_layer = 0
+collision_mask = 14
+script = ExtResource("1_nmryn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jtsml")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -3.0
+offset_top = -1.0
+offset_right = 3.0
+offset_bottom = 1.0
+color = Color(0, 0.62770414, 0.38390592, 1)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-4, -4, 8, 8)
