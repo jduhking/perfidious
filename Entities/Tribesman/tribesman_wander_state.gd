@@ -6,10 +6,16 @@ extends State
 	
 func _physics_process(delta: float) -> void:
 	
+	var interests = actor.hearing_area.get_overlapping_bodies()
 	var threats = actor.detection_area.get_overlapping_bodies()
+	
+	var players = interests.filter(func (x : Player): return x != null)
+	if GameManager.player in players and GameManager.player.blowing_horn and actor.current_group_interest_point != GameManager.player:
+		actor.check_out_player()
+		
 	threats = threats.filter(func (x : Entity): 
 		var angle = actor.global_position.angle_to_point(x.global_position)
-		return angle >= -actor.half_angle + actor.rotation and angle <= actor.half_angle + actor.rotation and actor.get_distance_to(x) <= actor.sight_radius and x is not Tribesman and ((x as Player) and (x as Player).is_caught)
+		return angle >= -actor.half_angle + actor.current_rotation and angle <= actor.half_angle + actor.current_rotation and actor.get_distance_to(x) <= actor.sight_radius and x is not Tribesman and ((x as Player) and (x as Player).is_caught)
 	)
 	
 	if threats.size() > 0:

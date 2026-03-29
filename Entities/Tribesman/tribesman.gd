@@ -9,7 +9,7 @@ static var seen_count : int = 0
 var current_threat : Entity
 
 @onready var arrow = preload("res://Entities/Tribesman/Arrow.tscn")
-var timer 
+var timer : Timer
 const HANGOUT_INTERVAL : float = 1
 @export var hangout_radius : float = 96
 @export var sight_radius : float = 64
@@ -34,9 +34,15 @@ func _ready() -> void:
 	
 		
 static func _on_shared_timeout():
-	if GameManager.current_level:
-		var interest_points = GameManager.current_level.interest_points
-		current_group_interest_point = interest_points[randi() % interest_points.size()]
+	update_shared_interest_point()
+	
+static func update_shared_interest_point(interest : Node2D = null):
+	if interest:
+		current_group_interest_point = interest
+	else:
+		if GameManager.current_level:
+			var interest_points = GameManager.current_level.interest_points
+			current_group_interest_point = interest_points[randi() % interest_points.size()]
 		
 func claim_brain() -> void:
 	brain = self
@@ -90,6 +96,11 @@ func shoot_arrow():
 	a.init($ArrowSpawnPoint.global_position, get_direction_to(current_threat))
 	
 	GameManager.current_level.add_child(a)
+	
+func check_out_player():
+	if brain and brain.timer:
+		brain.timer.
+	update_shared_interest_point(GameManager.player)
 	
 	
 	
