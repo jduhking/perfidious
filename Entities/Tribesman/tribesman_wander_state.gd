@@ -15,7 +15,7 @@ func _physics_process(delta: float) -> void:
 		
 	threats = threats.filter(func (x : Entity): 
 		var angle = actor.global_position.angle_to_point(x.global_position)
-		return angle >= -actor.half_angle + actor.current_rotation and angle <= actor.half_angle + actor.current_rotation and actor.get_distance_to(x) <= actor.sight_radius and x is not Tribesman and ((x as Player) and (x as Player).is_caught)
+		return angle >= -actor.half_angle + actor.current_rotation and angle <= actor.half_angle + actor.current_rotation and actor.get_distance_to(x) <= actor.sight_radius and ((x is Demon) or ((x as Player) and (x as Player).is_caught))
 	)
 	
 	if threats.size() > 0:

@@ -34,6 +34,11 @@ static var tribe_count = 0:
 @onready var detection_shape : CircleShape2D = $DetectionArea/CollisionShape2D.shape
 var current_rotation : float 
 signal reached_destination 
+var sight_light : PointLight2D
+var body_light : PointLight2D
+
+static var _cone_tex : ImageTexture
+static var _radial_tex : ImageTexture
 
 func _ready() -> void:
 	detection_shape.radius = sight_radius
@@ -41,7 +46,63 @@ func _ready() -> void:
 	tribe_count += 1
 	if !brain:
 		claim_brain()
-		
+	_setup_lights()
+
+func _setup_lights() -> void:
+	# cone sight light
+	sight_light = PointLight2D.new()
+	sight_light.name = "SightLight"
+	if !_cone_tex:
+		_cone_tex = _make_cone_texture(128)
+	sight_light.texture = _cone_tex
+	sight_light.texture_scale = sight_radius / 64.0
+	sight_light.energy = 0.6
+	sight_light.color = Color.WHITE
+	add_child(sight_light)
+
+	# body ambient light
+	body_light = PointLight2D.new()
+	body_light.name = "BodyLight"
+	if !_radial_tex:
+		_radial_tex = _make_radial_texture(128)
+	body_light.texture = _radial_tex
+	body_light.texture_scale = 0.4
+	body_light.energy = 0.6
+	body_light.color = Color.WHITE
+	add_child(body_light)
+
+func _make_cone_texture(size: int) -> ImageTexture:
+	var img := Image.create(size, size, false, Image.FORMAT_RGBA8)
+	var center := Vector2(size / 2.0, size / 2.0)
+	var half := deg_to_rad(sight_angle * 0.5)
+
+	for y in size:
+		for x in size:
+			var to_pixel := Vector2(x, y) - center
+			var angle = abs(atan2(to_pixel.y, to_pixel.x))
+			var dist := to_pixel.length() / (size / 2.0)
+
+			if angle <= half and to_pixel.x >= 0:
+				var falloff := 1.0 - smoothstep(0.0, 1.0, dist)
+				var edge_fade := 1.0 - smoothstep(half * 0.7, half, angle)
+				img.set_pixel(x, y, Color(1, 1, 1, falloff * edge_fade))
+			else:
+				img.set_pixel(x, y, Color(0, 0, 0, 0))
+
+	return ImageTexture.create_from_image(img)
+
+func _make_radial_texture(size: int) -> ImageTexture:
+	var img := Image.create(size, size, false, Image.FORMAT_RGBA8)
+	var center := Vector2(size / 2.0, size / 2.0)
+
+	for y in size:
+		for x in size:
+			var dist := Vector2(x, y).distance_to(center) / (size / 2.0)
+			var alpha := 1.0 - smoothstep(0.0, 1.0, dist)
+			img.set_pixel(x, y, Color(1, 1, 1, alpha))
+
+	return ImageTexture.create_from_image(img)
+
 func cleanup():
 	tribe_count -= 1
 	
@@ -68,31 +129,28 @@ func _exit_tree() -> void:
 	if brain == self:
 		brain = null
 		timer = null
-		# find any surviving instance and promote it
 		var others = GameManager.current_level.get_node("Tribesmen").get_children().filter(func (x : Tribesman): return x != self)
 		if others.size() > 0:
 			(others[0] as Tribesman).claim_brain()
 			
 func _process(delta: float) -> void:
-	queue_redraw()
+	if sight_light:
+		sight_light.rotation = current_rotation
+	#queue_redraw()
 
 func decide_target():
-	#target = GameManager.player.global_position
-	
 	var rand_vec = Vector2.RIGHT.rotated(randf() * TAU) * (sqrt(randf()) * hangout_radius)
-	
 	var p_x = rand_vec.x + current_group_interest_point.global_position.x
 	var p_y = rand_vec.y + current_group_interest_point.global_position.y
-	
 	target = Vector2(clampf(p_x, GameManager.min_x, GameManager.max_x), clampf(p_y, GameManager.min_y, GameManager.max_y))
 	
-func _draw() -> void:
-	var point_a = Vector2(cos(-half_angle + current_rotation),  sin(-half_angle + current_rotation)) * sight_radius 
-	var point_b = Vector2(cos(half_angle + current_rotation),   sin(half_angle + current_rotation)) * sight_radius
-	draw_line(Vector2.ZERO, point_a, Color.RED, 1)
-	draw_line(Vector2.ZERO, point_b, Color.RED, 1)
-	draw_arc(Vector2.ZERO, sight_radius, -half_angle + current_rotation, half_angle + current_rotation, 100, Color.RED)
-	
+#func _draw() -> void:
+	#var point_a = Vector2(cos(-half_angle + current_rotation),  sin(-half_angle + current_rotation)) * sight_radius 
+	#var point_b = Vector2(cos(half_angle + current_rotation),   sin(half_angle + current_rotation)) * sight_radius
+	#draw_line(Vector2.ZERO, point_a, Color.RED, 1)
+	#draw_line(Vector2.ZERO, point_b, Color.RED, 1)
+	#draw_arc(Vector2.ZERO, sight_radius, -half_angle + current_rotation, half_angle + current_rotation, 100, Color.RED)
+	#
 func can_see_player() -> bool:
 	var angle_to_player = global_position.angle_to_point(GameManager.player.global_position)
 	return angle_to_player >= -half_angle + current_rotation and angle_to_player <= half_angle + current_rotation and GameManager.player.global_position.distance_to(global_position) <= sight_radius 
@@ -106,7 +164,6 @@ func look():
 func shoot_arrow():
 	var a : Arrow = arrow.instantiate()
 	a.init($ArrowSpawnPoint.global_position, get_direction_to(current_threat))
-	
 	GameManager.current_level.add_child(a)
 	
 func check_out_player():
@@ -114,7 +171,3 @@ func check_out_player():
 		TimerTools.kill_timer(brain.timer)
 		create_hangout_timer()
 	update_shared_interest_point(GameManager.player)
-	
-	
-	
-	

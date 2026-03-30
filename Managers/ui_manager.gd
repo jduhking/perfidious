@@ -35,6 +35,12 @@ func show_pause():
 func hide_pause():
 	pause.hide()
 	
+func show_game_over():
+	$CanvasLayer/GameOverScreen.show()
+	
+func hide_game_over():
+	$CanvasLayer/GameOverScreen.hide()
+	
 func update_sus_bar(value : float):
 	if value < 0.1:
 		sus_message.texture = disregarded

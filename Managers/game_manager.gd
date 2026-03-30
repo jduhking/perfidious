@@ -8,7 +8,7 @@ var max_x : float
 var min_x : float
 var max_y : float 
 var min_y : float
-
+var can_press_continue := false
 const LEVELS = [
 	"res://Levels/level_1.tscn",
 	"res://Levels/level_2.tscn",
@@ -29,9 +29,11 @@ func change_state(new_state : GAMESTATE):
 			unpause()
 		GAMESTATE.GAMEOVER:
 			get_tree().paused = true
-			await get_tree().create_timer(0.5).timeout
-			restart_level()
-			get_tree().paused = false
+			
+			UIManager.fade(func ():
+				UIManager.show_game_over()
+				UIManager.fade(func (): can_press_continue = true,false))
+
 
 func _process(delta: float) -> void:
 	update_state(delta)
@@ -56,6 +58,15 @@ func update_state(delta):
 		GAMESTATE.PAUSED:
 			if Input.is_action_just_pressed("enter") or Input.is_action_just_pressed("pause"):
 				change_state(GAMESTATE.GAME)
+		GAMESTATE.GAMEOVER:
+			if Input.is_anything_pressed() and can_press_continue:
+				UIManager.fade(func (): 
+					change_state(GAMESTATE.NONE)
+					UIManager.hide_game_over()
+					UIManager.hide_gui()
+					can_press_continue = false
+					restart_level())
+				
 				
 
 func load_level(index: int) -> void:
@@ -68,6 +79,8 @@ func next_level() -> void:
 		load_level(current_level_index + 1)
 
 func restart_level() -> void:
+	UIManager.update_demon_count(0)
+	UIManager.update_tribe_count(0)
 	get_tree().change_scene_to_file(LEVELS[current_level_index])
 
 

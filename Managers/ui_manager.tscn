@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ck5tbk4657hsa"]
+[gd_scene load_steps=10 format=3 uid="uid://ck5tbk4657hsa"]
 
 [ext_resource type="Script" uid="uid://bfrcp7i6u2477" path="res://Managers/ui_manager.gd" id="1_p428f"]
 [ext_resource type="Texture2D" uid="uid://cpku7soui0fus" path="res://suspicion_bar.png" id="2_hinit"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://1xefh2egb031" path="res://disreg.png" id="4_pwfn7"]
 [ext_resource type="Texture2D" uid="uid://benn8cwna8uhr" path="res://demon_icon.png" id="5_pwfn7"]
 [ext_resource type="Texture2D" uid="uid://noegk4v4bi6o" path="res://pause_title.png" id="8_u7hc8"]
+[ext_resource type="Texture2D" uid="uid://c5g3e6k51xoud" path="res://game_over.png" id="9_lei6m"]
 
 [node name="UIManager" type="Node"]
 process_mode = 3
@@ -111,6 +112,22 @@ grow_vertical = 2
 [node name="PauseMenu" type="TextureRect" parent="CanvasLayer/PauseMenu/CenterContainer"]
 layout_mode = 2
 texture = ExtResource("8_u7hc8")
+stretch_mode = 2
+
+[node name="GameOverScreen" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverCard" type="TextureRect" parent="CanvasLayer/GameOverScreen"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("9_lei6m")
 stretch_mode = 2
 
 [node name="Transition" type="ColorRect" parent="CanvasLayer"]
