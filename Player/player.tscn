@@ -1,7 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgfu1eq4j20ux"]
+[gd_scene load_steps=12 format=3 uid="uid://cgfu1eq4j20ux"]
 
 [ext_resource type="Script" uid="uid://bdmaunh02ikr" path="res://Player/player.gd" id="1_4flbx"]
+[ext_resource type="Shader" uid="uid://c44urur1qb5cv" path="res://Player/outline.gdshader" id="1_btcbx"]
 [ext_resource type="Texture2D" uid="uid://csega2if75k7f" path="res://player.png" id="2_4ntmi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gwnis"]
+resource_local_to_scene = true
+shader = ExtResource("1_btcbx")
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/outline_width = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_80nbo"]
 size = Vector2(19, 22)
@@ -91,8 +98,8 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_gwnis")
 collision_layer = 2
-collision_mask = 0
 script = ExtResource("1_4flbx")
 heightened_suspicion_rate = 1.0
 suspicion_rate = 0.1
@@ -100,6 +107,7 @@ max_health = 1.0
 max_speed = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+use_parent_material = true
 texture = ExtResource("2_4ntmi")
 hframes = 4
 
