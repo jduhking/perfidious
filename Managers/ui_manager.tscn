@@ -1,28 +1,122 @@
-[gd_scene load_steps=2 format=3 uid="uid://ck5tbk4657hsa"]
+[gd_scene load_steps=9 format=3 uid="uid://ck5tbk4657hsa"]
 
 [ext_resource type="Script" uid="uid://bfrcp7i6u2477" path="res://Managers/ui_manager.gd" id="1_p428f"]
+[ext_resource type="Texture2D" uid="uid://cpku7soui0fus" path="res://suspicion_bar.png" id="2_hinit"]
+[ext_resource type="LabelSettings" uid="uid://qg7bnikptnec" path="res://score_font.tres" id="3_u868w"]
+[ext_resource type="Texture2D" uid="uid://byw17jn1joc1e" path="res://suspicion_bar_filled.png" id="3_we10i"]
+[ext_resource type="Texture2D" uid="uid://uj3o3rg07mtb" path="res://tribesman_icon.png" id="4_6r36e"]
+[ext_resource type="Texture2D" uid="uid://1xefh2egb031" path="res://disreg.png" id="4_pwfn7"]
+[ext_resource type="Texture2D" uid="uid://benn8cwna8uhr" path="res://demon_icon.png" id="5_pwfn7"]
+[ext_resource type="Texture2D" uid="uid://noegk4v4bi6o" path="res://pause_title.png" id="8_u7hc8"]
 
 [node name="UIManager" type="Node"]
+process_mode = 3
 script = ExtResource("1_p428f")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="GUI" type="Control" parent="CanvasLayer"]
+visible = false
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GUI"]
+[node name="EntityIconContainer" type="VBoxContainer" parent="CanvasLayer/GUI"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 23.0
+offset_bottom = 41.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="Tribe" type="HBoxContainer" parent="CanvasLayer/GUI/EntityIconContainer"]
+layout_mode = 2
+
+[node name="TribeIcon" type="TextureRect" parent="CanvasLayer/GUI/EntityIconContainer/Tribe"]
+layout_mode = 2
+texture = ExtResource("4_6r36e")
+
+[node name="TribeCount" type="Label" parent="CanvasLayer/GUI/EntityIconContainer/Tribe"]
+layout_mode = 2
+text = "0"
+label_settings = ExtResource("3_u868w")
+
+[node name="Demon" type="HBoxContainer" parent="CanvasLayer/GUI/EntityIconContainer"]
+layout_mode = 2
+
+[node name="DemonIcon" type="TextureRect" parent="CanvasLayer/GUI/EntityIconContainer/Demon"]
+layout_mode = 2
+texture = ExtResource("5_pwfn7")
+
+[node name="DemonCount" type="Label" parent="CanvasLayer/GUI/EntityIconContainer/Demon"]
+layout_mode = 2
+text = "0"
+label_settings = ExtResource("3_u868w")
+
+[node name="SusContainer" type="CenterContainer" parent="CanvasLayer/GUI"]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 8.0
-anchor_bottom = 4.5
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+anchor_top = 0.754
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="SusBar" type="ProgressBar" parent="CanvasLayer/GUI/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/SusContainer"]
+layout_mode = 2
+
+[node name="SusMessage" type="TextureRect" parent="CanvasLayer/GUI/SusContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_pwfn7")
+stretch_mode = 3
+
+[node name="SusBar" type="TextureProgressBar" parent="CanvasLayer/GUI/SusContainer/VBoxContainer"]
 layout_mode = 2
 max_value = 1.0
+step = 0.01
+texture_under = ExtResource("2_hinit")
+texture_progress = ExtResource("3_we10i")
+
+[node name="PauseMenu" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="CanvasLayer/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3019608)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseMenu" type="TextureRect" parent="CanvasLayer/PauseMenu/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("8_u7hc8")
+stretch_mode = 2
+
+[node name="Transition" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)

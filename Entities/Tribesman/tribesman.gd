@@ -9,15 +9,21 @@ static var seen_count : int = 0
 var current_threat : Entity
 
 @onready var arrow = preload("res://Entities/Tribesman/Arrow.tscn")
+@onready var hearing_area : Area2D = $HearingArea
 var timer : Timer
-const HANGOUT_INTERVAL : float = 1
+@export var hangout_time : float = 1
 @export var hangout_radius : float = 96
 @export var sight_radius : float = 64
 @export_range(0, 180) var sight_angle : float = 45
 @export var evade_threshold : float = 2
 @export var shoot_distance : float = 64
 @export var arrow_rate : float = 1
+const highly_suspect_player_threshold : float = 0.5
 var target : Vector2 
+static var tribe_count = 0:
+	set(value):
+		tribe_count = value
+		UIManager.update_tribe_count(value)
 @onready var color_rect : ColorRect = $ColorRect
 @onready var half_angle : float = sight_angle * 0.5 * PI/180 
 
@@ -27,12 +33,18 @@ var target : Vector2
 @onready var detection_area : Area2D = $DetectionArea
 @onready var detection_shape : CircleShape2D = $DetectionArea/CollisionShape2D.shape
 var current_rotation : float 
+signal reached_destination 
+
 func _ready() -> void:
 	detection_shape.radius = sight_radius
+	tree_exited.connect(cleanup)
+	tribe_count += 1
 	if !brain:
 		claim_brain()
-	
 		
+func cleanup():
+	tribe_count -= 1
+	
 static func _on_shared_timeout():
 	update_shared_interest_point()
 	
@@ -40,17 +52,17 @@ static func update_shared_interest_point(interest : Node2D = null):
 	if interest:
 		current_group_interest_point = interest
 	else:
-		if GameManager.current_level:
+		if GameManager.player.suspicion >= highly_suspect_player_threshold:
+			current_group_interest_point = GameManager.player
+		elif GameManager.current_level:
 			var interest_points = GameManager.current_level.interest_points
 			current_group_interest_point = interest_points[randi() % interest_points.size()]
 		
 func claim_brain() -> void:
 	brain = self
-	timer = Timer.new()
-	timer.wait_time = HANGOUT_INTERVAL
-	timer.autostart = true
-	timer.timeout.connect(_on_shared_timeout)
-	add_child(timer)
+	
+func create_hangout_timer():
+	timer = TimerTools.create_adhoc_timer(self, hangout_time, _on_shared_timeout)
 
 func _exit_tree() -> void:
 	if brain == self:
@@ -89,7 +101,7 @@ func look():
 	var half_angle = sight_angle * 0.5 * PI/180 
 	if can_see_player() and GameManager.player.blowing_horn and seen_count < 1:
 		seen_count += 1
-		GameManager.player.seen()
+		GameManager.player.raise_suspicion()
 
 func shoot_arrow():
 	var a : Arrow = arrow.instantiate()
@@ -98,8 +110,9 @@ func shoot_arrow():
 	GameManager.current_level.add_child(a)
 	
 func check_out_player():
-	if brain and brain.timer:
-		brain.timer.
+	if brain and !brain.timer:
+		TimerTools.kill_timer(brain.timer)
+		create_hangout_timer()
 	update_shared_interest_point(GameManager.player)
 	
 	

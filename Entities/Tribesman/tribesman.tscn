@@ -106,6 +106,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jj62"]
+radius = 110.0409
 
 [node name="Tribesman" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_qrmtu")
@@ -114,19 +115,7 @@ collision_mask = 0
 script = ExtResource("1_2qpyo")
 hangout_radius = 110.0
 sight_radius = 96.0
-sight_angle = null
-evade_threshold = null
-shoot_distance = null
-arrow_rate = null
-max_health = null
 max_speed = 50.0
-accel_time = null
-decel_time = null
-max_attack_damage = null
-min_attack_damage = null
-attack_damage = null
-max_knockback_force = null
-min_knockback_force = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_80nbo")
@@ -182,6 +171,8 @@ libraries = {
 }
 
 [node name="HearingArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HearingArea"]
 shape = SubResource("CircleShape2D_0jj62")

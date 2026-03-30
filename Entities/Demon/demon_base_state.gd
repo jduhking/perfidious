@@ -20,7 +20,7 @@ func _physics_process(delta: float) -> void:
 			actor.velocity = actor.velocity.move_toward(Vector2.ZERO, decel * delta)
 
 		actor.move_and_slide()
-		
+		actor.determine_sprite_dir(input_dir)
 		if actor.global_position.distance_to(actor.current_target.global_position) <= actor.ATTACK_THRESHOLD:
 			actor.current_target.damage(actor.attack_damage, actor.get_direction_to(actor.current_target))
 			

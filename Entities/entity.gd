@@ -98,3 +98,17 @@ func kill_flash_timer():
 	
 func update_health_callback(value : float):
 		$HealthBar.value = lerpf(0,1,current_health/max_health)
+
+func determine_sprite_dir(d : Vector2):
+	if d != Vector2.ZERO:
+		var largest_dot = -INF
+		var largest_dir : Vector2 = Vector2(1,0)
+		for dir in [Vector2(1,0), Vector2(0,1), Vector2(-1, 0), Vector2(0, -1)]:
+			var dot = dir.dot(d)
+			if dot >= largest_dot:
+				largest_dot = dot
+				largest_dir = dir
+			
+		current_dir_name = dir_to_name_map[largest_dir]
+		
+	animator.play(current_dir_name)

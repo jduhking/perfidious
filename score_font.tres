@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://qg7bnikptnec"]
+
+[ext_resource type="FontFile" uid="uid://rb21fv12tiox" path="res://Cave-Story.ttf" id="1_jh8aw"]
+
+[resource]
+resource_local_to_scene = true
+font = ExtResource("1_jh8aw")
+font_color = Color(0.73333335, 0.1254902, 0.24705882, 1)
+outline_size = 2
+shadow_size = 0
